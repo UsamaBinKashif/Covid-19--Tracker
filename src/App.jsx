@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { fetchData } from "./api";
 import { Cards, Chart } from "./components";
 import HeroImage from "./assets/hero-image.png";
+import LineGraph from "./components/Chart/LineGraph";
+import { PieChart } from "./components/Chart/PieChart";
 function App() {
   const date = new Date();
 
   const [data, setData] = useState("");
   useEffect(() => {
     const getData = async () => {
-      const fetchdb = await fetchData();
+      const res = await fetchData();
       setData(fetchdb);
     };
     getData();
@@ -51,7 +53,8 @@ function App() {
         <p className="text-[10px] font-bold text-gray-500 mb-2">
           (click the labels to see one by one)
         </p>
-        <Chart />
+        {/* <Chart /> */}
+        
       </section>
 
       <footer className="text-center mb-3">

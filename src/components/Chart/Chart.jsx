@@ -24,6 +24,7 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+
   plugins: {
     legend: {
       position: "top",
@@ -36,16 +37,18 @@ export const options = {
 };
 
 const Chart = () => {
-  const [dailyData, setDailyData] = useState({});
-
+  const [dailyData, setDailyData] = useState([]);
+  const [labelData, setLabelData] = useState([]);
   useEffect(() => {
     const fetchMyAPI = async () => {
       const initialDailyData = await fetchData();
       setDailyData(initialDailyData);
     };
     fetchMyAPI();
+
+ 
   }, []);
-  console.log(dailyData.active);
+
   const labels = [
     `infected: ${dailyData.active}`,
     `recovered: ${dailyData.recovered}`,
