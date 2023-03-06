@@ -1,21 +1,54 @@
-const Cards = (props) => {
-  const { border, title, numbers, description } = props;
+import { useEffect, useState } from "react";
+import CardItem from "./CardItem/CardItem";
+
+const Cards = ({ countryData }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const url =
+      countryData === " "
+        ? "https://disease.sh/v3/covid-19/all"
+        : `https://disease.sh/v3/covid-19/countries/${countryData}`;
+    const getData = async () => {
+      await fetch(url)
+        .then((response) => response.json())
+        .then((result) => {
+          setData(result);
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    getData();
+  }, [countryData]);
   return (
-    <section className="p-4">
-      <div
-        className={`border-b-8 ${border} h-1/2 bg-gray-200 bg-opacity-75 p-10 rounded shadow-xl text-center`}
-      >
-        <h2 className="tracking-widest text-xs title-font font-bold text-gray-600 mb-3 uppercase">
-          {title}
-        </h2>
-        <h1 className="title-font sm:text-xl text-xl text-gray-900 mb-3 font-bold">
-          {numbers}
-        </h1>
-        <p className="text-sm ">
-          {description}
-        </p>
-      </div>
-    </section>
+    <>
+      <p className="text-sm font-bold text-gray-800 mb-2">
+        CURRENT UPDATES FROM COVID-19 TODAY
+      </p>
+      <section className="flex justify-center items-center flex-col md:flex-row ">
+        <CardItem
+          border={"border-blue-600"}
+          title={"Infected"}
+          numbers={data?.todayCases}
+          description={"Number of active cases of COVID-19"}
+        />
+        <CardItem
+          border={"border-green-600"}
+          title={"Recovered"}
+          numbers={data?.todayRecovered}
+          description={"Number recoveries from COVID-19"}
+        />
+        <CardItem
+          border={"border-red-600"}
+          title={"Deaths"}
+          numbers={data?.todayDeaths}
+          description={"Number of deaths caused by COVID-19"}
+        />
+      </section>
+    </>
   );
 };
 
